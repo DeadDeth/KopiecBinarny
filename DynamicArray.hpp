@@ -1,8 +1,5 @@
 #pragma once
-#include <cstddef>
-#include <utility>
-#include <stdexcept>
-#include <iostream>
+
 
 template <typename T>
 class dynamicarray
