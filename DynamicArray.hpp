@@ -73,7 +73,6 @@ public:
     {
         return find_value_by_index(index);
     }
-
     size_t get_size() const
     {
         return size;
