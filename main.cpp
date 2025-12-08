@@ -1,6 +1,6 @@
 #include <iostream>
-#include <cstddef>
-#include <utility>
+#include <functional>
+#include <string>
 #include <stdexcept>
 
 //pliki .hpp------------------
@@ -12,5 +12,9 @@
 
 int main()
 {
+    // co testowac ?
+    //implementacja tablicy
+    // wizualizacja
+    // czas: dodawanie, amortyzacja, najdluzszy czas dodania:
     std::cout<< "Hellow, world" << '\n';
 }
