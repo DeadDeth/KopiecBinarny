@@ -47,8 +47,6 @@ class dynamicarray
         else throw std::out_of_range("Invalid index");
     }
 
-
-
     void clear() noexcept
     {
         delete[] array;
@@ -58,7 +56,11 @@ class dynamicarray
     }
 public:
     explicit dynamicarray() = default;
-    ~dynamicarray() noexcept{ clear(); }
+    ~dynamicarray() noexcept{ clear_all(); }
+
+    void clear_all() noexcept{
+        clear();
+    }
 
     void push_back(const T& value)
     {

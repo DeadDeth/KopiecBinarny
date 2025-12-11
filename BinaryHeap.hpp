@@ -1,91 +1,79 @@
 #pragma once
 
-
 template<typename T>
-class BinaryHeap
-{
+class binaryheap {
     dynamicarray<T> data;
-    size_t size{0};
-
-    template<typename Comp> // ldaczego tu jest jakis template comp i co to robi
-    void sift_up(size_t index, Comp comp) // co to jest sift up i down
-    {
+    size_t heap_size{0};
+    template<typename Comp>
+    void przekopcowanie_w_gore(size_t index, Comp comp) {
         if (index == 0) return;
         size_t parent = (index - 1) / 2;
-        if (comp(data[parent], data[index]))
-        {
+
+        if (comp(data[parent], data[index])) {
             std::swap(data[parent], data[index]);
-            sift_up(parent,comp);
+            przekopcowanie_w_gore(parent,comp);
         }
     }
+
     template<typename Comp>
-    void sift_down(size_t index, Comp comp)
-    {
-        size_t left = 2 * index + 1;
-        size_t right = 2 * index + 2;
+    void przekopcowanie_w_dol(size_t index, Comp comp) {
+        size_t n = heap_size;
+        size_t left_child = 2 * index + 1;
+        size_t right_child = 2 * index + 2;
         size_t best = index;
 
-        if (left < size && comp(data[best], data[left]))
-        {
-            best = left;
+        if (left_child < n && comp(data[best], data[left_child])) {
+            best = left_child;
         }
-        if (right < size && comp(data[best], data[right]))
-        {
-            best = right;
+        if (right_child < n && comp(data[best], data[right_child])) {
+            best = right_child;
         }
-        if (best != index)
-        {
+        if (best != index) {
             std::swap(data[index], data[best]);
-            sift_down(best, comp);
+            przekopcowanie_w_dol(best, comp);
         }
-    } // co to jest
+    }
+
 public:
-    BinaryHeap() = default;
+    binaryheap() = default;
+    void clear() {
+        data.clear_all();
+        heap_size = 0;
+    }
 
     template<typename Comp>
-    void push(const T& value, Comp comp)
-    {
-        if (size == data.get_size())
-        {
+    void add(const T& value, Comp comp) {
+        if (heap_size == data.get_size()) {
             data.push_back(value);
         }
-        else
-        {
-            data[size] = value;
+        else {
+            data[heap_size] = value;
         }
-        sift_up(size, comp);
-        size++;
-    }
-    void push(const T& value)
-    {
-        push(value, std::less<T>{}); // co to robi co to anczy jak to dziala
+        przekopcowanie_w_gore(heap_size, comp);
+        heap_size++;
     }
 
     template<typename Comp>
-    bool pop_max(T& out, Comp comp)
-    {
-        if (size == 0) return false;
-
-        out = data[0];
-        size--;
-
-        if (size > 0)
-        {
-            data[0] = data[size];
-            sift_down(0,comp);
+    void clear_root(Comp comp) {
+        if (heap_size == 0) return;
+        heap_size--;
+        if (heap_size > 0) {
+            data[0] = data[heap_size];
+            przekopcowanie_w_dol(0,comp);
         }
-        return true;
     }
-    bool pop_max(T& out)  //dlaczego nie const T& out albo value czy cos
-    {
-        return pop_max(out, std::less<T>{});
+    const T& get_root() {
+        if (heap_size != 0) return data[0];
+        throw std::out_of_range("nothing in root");
     }
-    const T& top() const
-    {
-        if (size == 0)
-        {
-            throw std::out_of_range("Heap is empty");
+
+    void dsiplay_heap() const {
+        if (heap_size == 0) return;
+        for (size_t i = 0; i < heap_size; i++) {
+            std::cout<<data[i] << '\n';
         }
-        return data[0];
+    }
+    size_t get_size() const {
+        return heap_size;
     }
 };
