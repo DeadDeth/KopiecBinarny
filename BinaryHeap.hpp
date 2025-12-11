@@ -20,15 +20,15 @@ class binaryheap {
     }
 
     void przekopcowanie_w_dol(size_t index) {
-        size_t n = heap_size;
+        size_t size = heap_size;
         size_t left_child  = 2 * index + 1;
         size_t right_child = 2 * index + 2;
         size_t best = index;
 
-        if (left_child < n && data[best] < data[left_child]) {
+        if (left_child < size && data[best] < data[left_child]) {
             best = left_child;
         }
-        if (right_child < n && data[best] < data[right_child]) {
+        if (right_child < size && data[best] < data[right_child]) {
             best = right_child;
         }
 
@@ -49,7 +49,9 @@ public:
     void add(const T& value) {
         if (heap_size == data.get_size()) {
             data.push_back(value);
-        } else {
+        }
+        else
+        {
             data[heap_size] = value;
         }
         przekopcowanie_w_gore(heap_size);
@@ -59,7 +61,6 @@ public:
     void clear_root() {
         if (heap_size == 0) return;
         heap_size--;
-
         if (heap_size > 0) {
             data[0] = data[heap_size];
             przekopcowanie_w_dol(0);
@@ -80,9 +81,5 @@ public:
 
     size_t get_size() const {
         return heap_size;
-    }
-
-    bool empty() const {
-        return heap_size == 0;
     }
 };
